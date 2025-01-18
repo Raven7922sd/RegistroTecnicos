@@ -1,0 +1,67 @@
+﻿@page "/Menu/Eliminar/{TecnicoId:int}"
+@inject TecnicosService tecnicosService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+@* HTML *@
+<PageTitle>Eliminar</PageTitle>
+
+@*Labels para notificaciones*@
+<label style="color:red; font-size:28px" hidden="@string.IsNullOrEmpty(Confirmacion)">@Confirmacion</label>
+<label style="color:red; font-size:28px;">@Pregunta</label> 
+
+<div class="container">
+	<div class="card shadow-lg">
+		<div class="card-header text-center">
+			<h5 class="card-title">Eliminar Tecnico</h5>
+		</div>
+		@*Datos y botones*@
+		<div class="card-body">
+			<p><strong>TecnicoId:</strong>@Tecnico.TecnicoId</p>
+			<hr style="height: 4px; background-color: #000;" />
+			<p><strong>Nombres:</strong>@Tecnico.Nombres</p>
+			<hr style="height: 4px; background-color: #000;" />
+			<p><strong>Salario por Hora:</strong>@Tecnico.SueldoHora.ToString("N2")</p>
+			<hr style="height: 4px; background-color: #000;" />
+
+			<div class="card-footer text-center mt-2">
+				<a href="/Menu/Index" class="btn btn-outline-primary">
+					<span class="bi bi-arrow-left"></span> Volver
+				</a>
+				<button class="btn btn-outline-danger" @onclick="Eliminar">
+					<span class="bi bi-trash"></span> Eliminar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public int TecnicoId { get; set; }
+
+	private Tecnicos Tecnico { get; set; } = new Tecnicos();
+	private string Confirmacion { get; set; } = string.Empty;
+	private string Pregunta { get; set; } = string.Empty;
+
+	protected override async Task OnInitializedAsync()
+	{
+		Tecnico = await tecnicosService.Buscar(TecnicoId);
+		Pregunta = "¿Está seguro de eliminar al técnico?";
+	}
+
+	public async Task Eliminar()
+	{
+		var eliminado = await tecnicosService.Eliminar(Tecnico.TecnicoId);
+		if (eliminado != null)
+		{
+			Confirmacion = "Registro eliminado correctamente";
+
+			navigationManager.NavigateTo("/Menu/Index");
+		}
+		else
+		{
+			Confirmacion = "Error al eliminar el registro";
+		}
+	}
+}
