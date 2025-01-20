@@ -15,23 +15,23 @@
 
         <div class="card-body">
 
-            @*labels*@ 
+            <!--Etiquetas-->
             <div class="row">
 
-                @*Filtrar por*@ 
+                
                 <div class="col-3 border-end border-2">
                     <label class="col-form-label"><strong>Filtrar por</strong></label>
                 </div>
 
-                @*ValorFiltro*@ 
+                
                 <div class="col-4 border-end border-2">
                     <label class="col-form-label"><strong>Busqueda</strong></label>
                 </div>
             </div>
 
-            @*Inputs y botones*@ 
+            
             <div class="row align-items-center">
-                @*filtro*@ 
+               
                 <div class="col-3 border-end border-2">
                     <InputSelect class="form-select" @bind-Value="Filtro">
                         <option value="" selected disabled>Elija una opcion</option>
@@ -40,7 +40,7 @@
                     </InputSelect>
                 </div>
 
-                @*Busqueda*@ 
+                <!--Buscar-->
                 <div class="col-4 border-end border-2">
                     <div class="input-group">
                         <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            @* Tabla *@
+            
             <table class="table table-hover">
                 <thead class="table-striped text-black" style="border-bottom: 4px solid;">
                     <tr>

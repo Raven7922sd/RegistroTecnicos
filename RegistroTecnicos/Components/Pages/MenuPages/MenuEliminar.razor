@@ -6,7 +6,7 @@
 @* HTML *@
 <PageTitle>Eliminar</PageTitle>
 
-@*Labels para notificaciones*@
+<!--Notificaciones-->
 <label style="color:red; font-size:28px" hidden="@string.IsNullOrEmpty(Confirmacion)">@Confirmacion</label>
 <label style="color:red; font-size:28px;">@Pregunta</label> 
 
@@ -15,7 +15,8 @@
 		<div class="card-header text-center">
 			<h5 class="card-title">Eliminar Tecnico</h5>
 		</div>
-		@*Datos y botones*@
+		
+		<!--Botones-->
 		<div class="card-body">
 			<p><strong>TecnicoId:</strong>@Tecnico.TecnicoId</p>
 			<hr style="height: 4px; background-color: #000;" />
