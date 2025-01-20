@@ -3,66 +3,89 @@
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
-@* HTML *@
-<PageTitle>Eliminar</PageTitle>
+<PageTitle>Eliminar Técnico</PageTitle>
 
-<!--Notificaciones-->
-<label style="color:red; font-size:28px" hidden="@string.IsNullOrEmpty(Confirmacion)">@Confirmacion</label>
-<label style="color:red; font-size:28px;">@Pregunta</label> 
-
-<div class="container">
-	<div class="card shadow-lg">
-		<div class="card-header text-center">
-			<h5 class="card-title">Eliminar Tecnico</h5>
-		</div>
-		
-		<!--Botones-->
-		<div class="card-body">
-			<p><strong>TecnicoId:</strong>@Tecnico.TecnicoId</p>
-			<hr style="height: 4px; background-color: #000;" />
-			<p><strong>Nombres:</strong>@Tecnico.Nombres</p>
-			<hr style="height: 4px; background-color: #000;" />
-			<p><strong>Salario por Hora:</strong>@Tecnico.SueldoHora.ToString("N2")</p>
-			<hr style="height: 4px; background-color: #000;" />
-
-			<div class="card-footer text-center mt-2">
-				<a href="/Menu/Index" class="btn btn-outline-primary">
-					<span class="bi bi-arrow-left"></span> Volver
-				</a>
-				<button class="btn btn-outline-danger" @onclick="Eliminar">
-					<span class="bi bi-trash"></span> Eliminar
-				</button>
-			</div>
-		</div>
-	</div>
+<!-- Notificaciones -->
+<div class="notification-container">
+    <div class="notification error" hidden="@string.IsNullOrEmpty(Confirmacion)">
+        @Confirmacion
+    </div>
+    <div class="notification question">
+        @Pregunta
+    </div>
 </div>
 
+<section class="form-wrapper">
+    <div class="form-card shadow-lg rounded">
+        <header class="form-card-header text-center">
+            <h4>Eliminar Datos del Técnico</h4>
+        </header>
+
+        <div class="form-card-body">
+
+            <!-- TecnicoId -->
+            <div class="form-group">
+                <label for="TecnicoId"><strong>ID del Técnico</strong></label>
+                <p id="TecnicoId">@Tecnico.TecnicoId</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Nombre -->
+            <div class="form-group">
+                <label for="Nombres"><strong>Nombre Completo</strong></label>
+                <p id="Nombres">@Tecnico.Nombres</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Sueldo por Hora -->
+            <div class="form-group">
+                <label for="SueldoHora"><strong>Sueldo por Hora</strong></label>
+                <p id="SueldoHora">@Tecnico.SueldoHora.ToString("N2")</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Botones de acción -->
+            <footer class="form-card-footer text-center">
+                <a href="/Menu/Index" class="btn btn-outline-primary">
+                    <span class="bi bi-arrow-left"></span> Volver
+                </a>
+                <button class="btn btn-outline-danger" @onclick="Eliminar">
+                    <span class="bi bi-trash"></span> Eliminar
+                </button>
+            </footer>
+        </div>
+    </div>
+</section>
+
 @code {
-	[Parameter]
-	public int TecnicoId { get; set; }
+    [Parameter]
+    public int TecnicoId { get; set; }
 
-	private Tecnicos Tecnico { get; set; } = new Tecnicos();
-	private string Confirmacion { get; set; } = string.Empty;
-	private string Pregunta { get; set; } = string.Empty;
+    private Tecnicos Tecnico { get; set; } = new Tecnicos();
+    private string Confirmacion { get; set; } = string.Empty;
+    private string Pregunta { get; set; } = string.Empty;
 
-	protected override async Task OnInitializedAsync()
-	{
-		Tecnico = await tecnicosService.Buscar(TecnicoId);
-		Pregunta = "¿Está seguro de eliminar al técnico?";
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        Tecnico = await tecnicosService.Buscar(TecnicoId);
+        Pregunta = "¿Está seguro de eliminar al técnico?";
+    }
 
-	public async Task Eliminar()
-	{
-		var eliminado = await tecnicosService.Eliminar(Tecnico.TecnicoId);
-		if (eliminado != null)
-		{
-			Confirmacion = "Registro eliminado correctamente";
+    public async Task Eliminar()
+    {
+        var eliminado = await tecnicosService.Eliminar(Tecnico.TecnicoId);
+        if (eliminado != null)
+        {
+            Confirmacion = "Registro eliminado correctamente";
 
-			navigationManager.NavigateTo("/Menu/Index");
-		}
-		else
-		{
-			Confirmacion = "Error al eliminar el registro";
-		}
-	}
+            navigationManager.NavigateTo("/Menu/Index");
+        }
+        else
+        {
+            Confirmacion = "Error al eliminar el registro";
+        }
+    }
 }

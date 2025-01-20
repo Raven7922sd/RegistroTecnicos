@@ -2,59 +2,65 @@
 @inject TecnicosService tecnicosService
 @rendermode InteractiveServer
 
-@*HTML*@
-<PageTitle>Create</PageTitle>
+<PageTitle>Crear Técnico</PageTitle>
+
 <EditForm Model="Tecnico" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
 
-    <!--Notifiaciones-->
-    <label style="color:red; font-size:28px;" hidden="@string.IsNullOrEmpty(ErrorNombre)">@ErrorNombre</label>
-    <label style="color:green; font-size:28px;" hidden="@string.IsNullOrEmpty(GuardarExito)">@GuardarExito</label>
+    <!-- Notificaciones -->
+    <div class="alert-container">
+        <div class="alert alert-danger" role="alert" hidden="@string.IsNullOrEmpty(ErrorNombre)">
+            @ErrorNombre
+        </div>
+        <div class="alert alert-success" role="alert" hidden="@string.IsNullOrEmpty(GuardarExito)">
+            @GuardarExito
+        </div>
+    </div>
 
-    <div class="container">
-        <div class="card shadow-lg">
-            <div class="card-header text-center">
-                <h5 class="card-title">Registro de Técnicos</h5>
-            </div>
+    <section class="form-container">
+        <div class="form-card shadow rounded">
+            <header class="form-card-header text-center">
+                <h4>Registro de Técnico</h4>
+            </header>
 
-            <div class="card-body">
+            <div class="form-card-body">
 
-                <!--TecnidoId-->
-                <div class="mb-3">
-                    <label class="form-label"><strong>TecnicoId</strong></label>
-                    <InputNumber class="form-control" @bind-Value="Tecnico.TecnicoId" readonly />
+                <!-- TecnicoId -->
+                <div class="form-group">
+                    <label for="TecnicoId"><strong>TecnicoId</strong></label>
+                    <InputNumber id="TecnicoId" class="form-control" @bind-Value="Tecnico.TecnicoId" readonly />
                 </div>
 
-                <!--Nombre-->
-                <div class="mb-3">
-                    <label class="form-label"><strong>Nombres</strong></label>
-                    <InputText class="form-control" @bind-Value="Tecnico.Nombres" />
+                <!-- Nombre -->
+                <div class="form-group">
+                    <label for="Nombres"><strong>Nombre Completo</strong></label>
+                    <InputText id="Nombres" class="form-control" @bind-Value="Tecnico.Nombres" />
                     <ValidationMessage For="(() => Tecnico.Nombres)" />
                 </div>
 
-                <!-- Sueldo Por Hora -->
-                <div class="mb-3">
-                    <label class="form-label"><strong>Sueldo por Hora</strong></label>
-                    <InputNumber class="form-control" @bind-Value="Tecnico.SueldoHora" />
+                <!-- Sueldo por Hora -->
+                <div class="form-group">
+                    <label for="SueldoHora"><strong>Sueldo por Hora</strong></label>
+                    <InputNumber id="SueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora" />
                     <ValidationMessage For="(() => Tecnico.SueldoHora)" />
                 </div>
 
             </div>
 
-            <!--Botones de acciones-->
-            <div class="card-footer text-center mt-2">
-                <a href="/Menu/Index" class="btn btn-outline-danger">
+            <!-- Acciones -->
+            <footer class="form-card-footer text-center">
+                <a href="/Menu/Index" class="btn btn-danger">
                     <span class="bi bi-arrow-left"></span> Volver
                 </a>
-                <button type="submit" class="btn btn-outline-success bi bi-floppy" title="Guardar">
-                    Guardar
+                <button type="submit" class="btn btn-success">
+                    <span class="bi bi-save"></span> Guardar
                 </button>
-                <button type="button" class="btn btn-outline-secondary bi bi-arrow-clockwise" @onclick="Nuevo" title="Nuevo">
-                    Nuevo
+                <button type="button" class="btn btn-secondary" @onclick="Nuevo">
+                    <span class="bi bi-arrow-repeat"></span> Nuevo
                 </button>
-            </div>
+            </footer>
         </div>
-    </div>
+    </section>
 </EditForm>
 
 @code {

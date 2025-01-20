@@ -4,44 +4,41 @@
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
-@* HTML *@
 <PageTitle>Registro de Técnicos</PageTitle>
-<div class="container">
-    <div class="card shadow-lg">
-        <div class="card-header d-flex justify-content-between">
-            <h5 class="card-title">Registro de Técnicos</h5>
-            <a href="/Menu/Create" class="btn btn-success"> <span class="bi bi-plus-square mt-3"></span> Crear</a>
-        </div>
+
+<section class="container">
+    <div class="card shadow-lg rounded">
+        <header class="card-header d-flex justify-content-between">
+            <h4 class="card-title">Registro de Técnicos</h4>
+            <a href="/Menu/Create" class="btn btn-success">
+                <span class="bi bi-plus-square mt-3"></span> Crear
+            </a>
+        </header>
 
         <div class="card-body">
 
-            <!--Etiquetas-->
-            <div class="row">
-
-                
-                <div class="col-3 border-end border-2">
+            <!-- Filtros de búsqueda -->
+            <div class="filters row">
+                <div class="col-3">
                     <label class="col-form-label"><strong>Filtrar por</strong></label>
                 </div>
-
-                
-                <div class="col-4 border-end border-2">
+                <div class="col-4">
                     <label class="col-form-label"><strong>Busqueda</strong></label>
                 </div>
             </div>
 
-            
             <div class="row align-items-center">
-               
-                <div class="col-3 border-end border-2">
+                <!-- Filtro -->
+                <div class="col-3">
                     <InputSelect class="form-select" @bind-Value="Filtro">
-                        <option value="" selected disabled>Elija una opcion</option>
+                        <option value="" selected disabled>Elija una opción</option>
                         <option value="TecnicoId">TecnicoId</option>
                         <option value="Nombres">Nombres</option>
                     </InputSelect>
                 </div>
 
-                <!--Buscar-->
-                <div class="col-4 border-end border-2">
+                <!-- Caja de búsqueda -->
+                <div class="col-4">
                     <div class="input-group">
                         <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
                         <button type="button" class="btn btn-outline-primary bi bi-search" @onclick="Buscar"></button>
@@ -49,42 +46,42 @@
                 </div>
             </div>
 
-            
-            <table class="table table-hover">
-                <thead class="table-striped text-black" style="border-bottom: 4px solid;">
-                    <tr>
-                        <th style="border-bottom: 4px solid;">TecnicoId</th>
-                        <th style="border-bottom: 4px solid;">Nombre</th>
-                        <th style="border-bottom: 4px solid;">Sueldo por Hora</th>
-                        <th style="border-bottom: 4px solid;">Editar</th>
-                        <th style="border-bottom: 4px solid;">Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var tecnico in ListaTecnicos)
-                    {
-                        <tr style="border-bottom: 4px solid;">
-                            <td style="border-right: 2px solid;">@tecnico.TecnicoId</td>
-                            <td style="border-right: 2px solid;">@tecnico.Nombres</td>
-                            <td style="border-right: 2px solid;">@tecnico.SueldoHora.ToString("N2")</td>
-
-                            <td>
-                                <a href="/Menu/Edit/@tecnico.TecnicoId" class="btn btn-outline-primary bi bi-pencil-square"></a>
-                            </td>
-                            <td>
-                                <a href="/Menu/Eliminar/@tecnico.TecnicoId" class="btn btn-outline-danger bi bi-trash"></a>
-                            </td>
+            <!-- Tabla de Técnicos -->
+            <div class="table-wrapper mt-3">
+                <table class="table table-hover">
+                    <thead class="table-striped text-black" style="border-bottom: 4px solid;">
+                        <tr>
+                            <th style="border-bottom: 4px solid;">TecnicoId</th>
+                            <th style="border-bottom: 4px solid;">Nombre</th>
+                            <th style="border-bottom: 4px solid;">Sueldo por Hora</th>
+                            <th style="border-bottom: 4px solid;">Editar</th>
+                            <th style="border-bottom: 4px solid;">Eliminar</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var tecnico in ListaTecnicos)
+                        {
+                            <tr>
+                                <td>@tecnico.TecnicoId</td>
+                                <td>@tecnico.Nombres</td>
+                                <td>@tecnico.SueldoHora.ToString("N2")</td>
+                                <td>
+                                    <a href="/Menu/Edit/@tecnico.TecnicoId" class="btn btn-outline-primary bi bi-pencil-square"></a>
+                                </td>
+                                <td>
+                                    <a href="/Menu/Eliminar/@tecnico.TecnicoId" class="btn btn-outline-danger bi bi-trash"></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
-</div>
-
+</section>
 
 @code {
-
     public List<Tecnicos> ListaTecnicos { get; set; } = new List<Tecnicos>();
 
     public string Filtro { get; set; } = string.Empty;

@@ -3,86 +3,96 @@
 @inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
-@*HTML*@
-<PageTitle>Editar Técnico</PageTitle>
+<PageTitle>Modificar Técnico</PageTitle>
+
 <EditForm Model="Tecnico" OnValidSubmit="Guardar">
-	<DataAnnotationsValidator />
+    <DataAnnotationsValidator />
 
-	<!--Notificaciones-->
-	<label style="color:blue; font-size:28px;" hidden="@string.IsNullOrEmpty(ErrorNombre)">@ErrorNombre</label>
-	<label style="color:green; font-size:28px;" hidden="@string.IsNullOrEmpty(GuardarExito)">@GuardarExito</label>
+    <!-- Notificaciones -->
+    <div class="notification-container">
+        <div class="notification error" hidden="@string.IsNullOrEmpty(ErrorNombre)">
+            @ErrorNombre
+        </div>
+        <div class="notification success" hidden="@string.IsNullOrEmpty(GuardarExito)">
+            @GuardarExito
+        </div>
+    </div>
 
-	<div class="container">
-		<div class="card shadow-lg">
-			<div class="card-header text-center">
-				<h5 class="card-title">Registro de Técnicos</h5>
-			</div>
+    <section class="form-wrapper">
+        <div class="form-card shadow-sm rounded">
+            <header class="form-card-header text-center">
+                <h4>Modificar Datos del Técnico</h4>
+            </header>
 
-			<div class="card-body">
+            <div class="form-card-body">
 
-				<!--TecnidoId-->
-				<div class="mb-3">
-					<label class="form-label"><strong>TecnicoId</strong></label>
-					<InputNumber class="form-control" @bind-Value="Tecnico.TecnicoId" readonly></InputNumber>
-				</div>
+                <!-- TecnicoId -->
+                <div class="form-group">
+                    <label for="TecnicoId"><strong>ID del Técnico</strong></label>
+                    <InputNumber id="TecnicoId" class="form-control" @bind-Value="Tecnico.TecnicoId" readonly />
+                </div>
 
-				<hr style="height: 4px; background-color: #000;" />
+                <div class="divider"></div>
 
-				<!--Nombre-->
-				<div class="mb-3">
-					<label class="form-label"><strong>Nombres</strong></label>
-					<InputText class="form-control" @bind-Value="Tecnico.Nombres"></InputText>
-					<ValidationMessage For="(() => Tecnico.Nombres)" />
-				</div>
+                <!-- Nombre -->
+                <div class="form-group">
+                    <label for="Nombres"><strong>Nombre Completo</strong></label>
+                    <InputText id="Nombres" class="form-control" @bind-Value="Tecnico.Nombres" />
+                    <ValidationMessage For="(() => Tecnico.Nombres)" />
+                </div>
 
-				<hr style="height: 4px; background-color: #000;" />
+                <div class="divider"></div>
 
-				<!--Sueldo por hora-->
-				<div class="mb-3">
-					<label class="form-label"><strong>Sueldo por Hora</strong></label>
-					<InputNumber class="form-control" @bind-Value="Tecnico.SueldoHora"></InputNumber>
-					<ValidationMessage For="(() => Tecnico.SueldoHora)" />
-				</div>
+                <!-- Sueldo por Hora -->
+                <div class="form-group">
+                    <label for="SueldoHora"><strong>Sueldo por Hora</strong></label>
+                    <InputNumber id="SueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora" />
+                    <ValidationMessage For="(() => Tecnico.SueldoHora)" />
+                </div>
 
-			</div>
+            </div>
 
-			<!--Notificaciones-->
-			<div class="card-footer text-center mt-2">
-				<a href="/Menu/Index" class="btn btn-primary"><span class="bi bi-arrow-left"></span> Volver</a>
-				<button type="submit" class="btn btn-success"><span class="bi bi-floppy"></span> Guardar</button>
-			</div>
-		</div>
-	</div>
+            <!-- Botones de acción -->
+            <footer class="form-card-footer text-center">
+                <a href="/Menu/Index" class="btn btn-danger">
+                    <span class="bi bi-arrow-left"></span> Regresar
+                </a>
+                <button type="submit" class="btn btn-success">
+                    <span class="bi bi-save"></span> Guardar
+                </button>
+            </footer>
+        </div>
+    </section>
 </EditForm>
 
 @code {
-	[Parameter]
-	public int TecnicoId { get; set; }
+    [Parameter]
+    public int TecnicoId { get; set; }
 
-	private Tecnicos Tecnico { get; set; } = new Tecnicos();
-	public List<Tecnicos> ListaTecnicos { get; set; } = new List<Tecnicos>();
-	private string ErrorNombre { get; set; } = string.Empty;
-	private string GuardarExito { get; set; } = string.Empty;
+    private Tecnicos Tecnico { get; set; } = new Tecnicos();
+    public List<Tecnicos> ListaTecnicos { get; set; } = new List<Tecnicos>();
+    private string ErrorNombre { get; set; } = string.Empty;
+    private string GuardarExito { get; set; } = string.Empty;
 
-	protected override async Task OnInitializedAsync()
-	{
-		Tecnico = await tecnicosService.Buscar(TecnicoId);
-		ListaTecnicos = await tecnicosService.Listar(t => t.TecnicoId > 0);
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        Tecnico = await tecnicosService.Buscar(TecnicoId);
+        ListaTecnicos = await tecnicosService.Listar(t => t.TecnicoId > 0);
+    }
 
-	public async Task Guardar()
-	{
-		ErrorNombre = string.Empty;
-		GuardarExito = string.Empty;
+    public async Task Guardar()
+    {
+        ErrorNombre = string.Empty;
+        GuardarExito = string.Empty;
 
-		var guardo = await tecnicosService.Guardar(this.Tecnico);
-		if (guardo != null)
-		{
-			GuardarExito = "Técnico modificado correctamente";
-		}
-		else
-		{
-			ErrorNombre = "Error al modificar el registro";
-		}
-	}
+        var guardo = await tecnicosService.Guardar(this.Tecnico);
+        if (guardo != null)
+        {
+            GuardarExito = "Técnico modificado correctamente";
+        }
+        else
+        {
+            ErrorNombre = "Error al modificar el registro";
+        }
+    }
 }
