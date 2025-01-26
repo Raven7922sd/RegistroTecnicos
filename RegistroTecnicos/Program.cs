@@ -23,6 +23,8 @@ builder.Services.AddDbContextFactory<Contexto>(o => o.UseSqlServer(ConStr));
 
 builder.Services.AddScoped<TecnicosService>();
 
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
